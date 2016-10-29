@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');	//Requires the gulp-sass plugin
 var imagemin = require('gulp-imagemin'); //Requires the gulp-imagemin plugin // npm install gulp-imagemin --save-dev
-
+var changed = require('gulp-changed'); // don't process the unchanged files
 
 
 /***** Sample only *****
@@ -31,4 +31,10 @@ gulp.task('watch', function() {
 	gulp.watch('work/src/styles/**/*', ['sass']); //gulp watch 
 });
 
-gulp.task('')
+gulp.task('imagemin', function() {	// Compress the image file and outputs to the dest folder
+	var img_src ='work/src/images/**/*', img_dest = 'work/build/images';
+	gulp.src(img_src)
+	.pipe(changed(img_dest))
+	.pipe(imagemin())
+	.pipe(gulp.dest(img_dest));
+});
