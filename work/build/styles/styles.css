@@ -1,1 +1,8 @@
-body{background-color:#000}#good{color:#fff}#beauty{color:red}
+#stylesCSS {
+  color: purple; }
+
+#watchCSS {
+  color: red; }
+
+.newclass {
+  font: sans-serif; }
