@@ -1,3 +1,4 @@
+/***** Declare dependencies and create tasks *****/
 var gulp = require('gulp');
 var sass = require('gulp-sass');	//Requires the gulp-sass plugin
 var imagemin = require('gulp-imagemin'); //Requires the gulp-imagemin plugin // npm install gulp-imagemin --save-dev
@@ -9,12 +10,16 @@ var concat = require('gulp-concat'); //Requires the gulp-concat plugin // npm in
 
 /***** Sample only *****
 gulp.task('task-name', function() {
-	reutrn gulp.src('source-files') //Get source files with gulp.src
-	.pipe(aGulpPlugin())	//Sends it through a gulp plugin
+	return gulp.src('source-files') //Get source files with gulp.src
+	.pipe(aGulpPlugin())	          //Sends it through a gulp plugin
 	.pipe(gulp.dest('destination')) //Outputs the file in the destination folder
 });
 /***** Sample only *****/
 
+/***** Combine tasks in Sefault task *****/
+gulp.task ('default',['watch','sass'], function() {
+
+});
 
 /***** print out "Hello World" *****/
 gulp.task ('hello', function () {
@@ -24,6 +29,7 @@ gulp.task ('hello', function () {
 /***** Compile sass to css *****/
 gulp.task('sass', function () {
 	return gulp.src('work/src/styles/**/*') // source in root folder and child folders
+  .pipe(changed('work/build/styles')) //do not process the unchnaged files
 	.pipe(sass()) //Using gulp-sass
 	.pipe(gulp.dest('work/build/styles'))
 });
@@ -45,8 +51,10 @@ gulp.task('imagemin', function() {
 });
 
 /***** Minify the css file *****/
-gulp.task ('styles', function(){
-  gulp.src('work/src/styles/minify.css')
-  .pipe(concat('styles.css')
-  .pipe(gulp.dest('work/build/styles'));
-})
+gulp.task ('styles', function() {
+  gulp.src('work/src/styles/**/*')
+  .pipe(concat('styles.css')) //concatenates the CSS files and 'autopreix' plugin indicates the current and the previous version of all browsers
+  .pipe(autoprefix('last 2 versions'))
+  .pipe(cleanCSS())
+  .pipe(gulp.dest('work/build/styles/minify'));
+});
